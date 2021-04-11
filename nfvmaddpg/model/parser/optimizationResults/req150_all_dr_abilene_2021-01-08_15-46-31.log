@@ -1,0 +1,8 @@
+REQUEST:
+UF: {'req0_a2': 'BNG', 'req0_a1': 'CR', 'req0_u3': 'PCTL', 'req0_u2': 'DPI', 'req0_u1': 'FW'}
+r: {'req0_a2': [1.0], 'req0_a1': [1.0], 'req0_u3': [0.6], 'req0_u2': [1.0], 'req0_u1': [0.4]}
+A: {'req0_a2': 2, 'req0_a1': 2}
+l_req: {('req0_a1', 'req0_a2'): 5.5}
+Input datarate: 1000.0
+Chain: req0_a1.req0_u1.req0_u2.req0_u3.req0_a2
+
