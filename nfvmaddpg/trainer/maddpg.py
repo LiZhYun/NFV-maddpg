@@ -71,6 +71,7 @@ def p_train(agents_num, edges_labels, nodes_labels, training, dropout_rate, make
         discriminator_vars = U.scope_vars("p_func_%d/discriminator" % p_index)
         gcn_vars = U.scope_vars("p_func_%d/gcn" % p_index)
         transformer_vars = U.scope_vars("p_func_%d/transformer" % p_index)
+<<<<<<< HEAD
         transformer_vars.extend(U.scope_vars("p_func_%d/encoder" % p_index))
         # generator_vars = U.scope_vars(U.absolute_scope_name("p_func/generator"))
         # discriminator_vars = U.scope_vars(U.absolute_scope_name("p_func/discriminator"))
@@ -114,6 +115,12 @@ def p_train(agents_num, edges_labels, nodes_labels, training, dropout_rate, make
         for idx, param in enumerate(input_transformer_vars_params):
             set_transformer_vars_params_op.append(
                 transformer_vars[idx].assign(param))
+=======
+        # generator_vars = U.scope_vars(U.absolute_scope_name("p_func/generator"))
+        # discriminator_vars = U.scope_vars(U.absolute_scope_name("p_func/discriminator"))
+        # p_func_vars = U.scope_vars(U.absolute_scope_name("p_func"))
+
+>>>>>>> bbb7af015557db9fecf03151bf5d6ab06832740a
         # wrap parameters in distribution
         # act_pd = act_pdtype_n[p_index].pdfromflat(p)
         act_sample = [p.nodes_hat + np.random.randn(
@@ -154,7 +161,11 @@ def p_train(agents_num, edges_labels, nodes_labels, training, dropout_rate, make
             (x_int0, None, x_int1), p.discriminator_units), (x_int0, x_int1))  # 995   95
 
         grad_penalty = tf.reduce_mean(((1 - tf.norm(grad0, axis=-1)) ** 2), -1) + tf.reduce_mean(
+<<<<<<< HEAD
             ((1 - tf.norm(grad1, axis=-1)) ** 2), -1, keepdims=True)  # shape 批次样本数,单个值
+=======
+            ((1 - tf.norm(grad1, axis=-1)) ** 2), -1, keep_dims=True)  # shape 批次样本数,单个值
+>>>>>>> bbb7af015557db9fecf03151bf5d6ab06832740a
 
         rl_loss = pg_loss + p_reg * 1e-3
         loss_G = tf.reduce_mean(- p.logits_fake)
@@ -201,10 +212,15 @@ def p_train(agents_num, edges_labels, nodes_labels, training, dropout_rate, make
         target_act = target_act_sample
         # target_act = U.function(inputs=[embeddings[p_index]] + [edges_labels[p_index]] + [nodes_labels[p_index]] + [
         #                         training[p_index]] + [dropout_rate[p_index]], outputs=target_act_sample)
+<<<<<<< HEAD
         generator_vars, discriminator_vars, gcn_vars, transformer_vars         
         input_generator_vars_params, input_discriminator_vars_params, input_gcn_vars_params, input_transformer_vars_params         
         set_generator_vars_params_op, set_discriminator_vars_params_op, set_gcn_vars_params_op, set_transformer_vars_params_op
         return generator_vars, discriminator_vars, gcn_vars, transformer_vars, input_generator_vars_params, input_discriminator_vars_params, input_gcn_vars_params, input_transformer_vars_params, set_generator_vars_params_op, set_discriminator_vars_params_op, set_gcn_vars_params_op, set_transformer_vars_params_op, obs_ph_n, act_ph_n, p, target_p, act, train_D, train_G, update_target_discriminator, update_target_generator, update_target_gcn, update_target_transformer, {'p_values': p_values, 'target_act': target_act}
+=======
+
+        return obs_ph_n, act_ph_n, p, target_p, act, train_D, train_G, update_target_discriminator, update_target_generator, update_target_gcn, update_target_transformer, {'p_values': p_values, 'target_act': target_act}
+>>>>>>> bbb7af015557db9fecf03151bf5d6ab06832740a
 
 def q_train(agents_num, p_func, make_obs_ph_n, act_space_n, q_index, q_func, optimizer, grad_norm_clipping=None, local_q_func=False, scope="trainer", reuse=None, num_units=64):
     with tf.variable_scope(scope, reuse=reuse):  # Critic当前网络
@@ -309,7 +325,11 @@ class MADDPGAgentTrainer(AgentTrainer):
             local_q_func=local_q_func,
             num_units=args.num_units
         )
+<<<<<<< HEAD
         self.generator_vars, self.discriminator_vars, self.gcn_vars, self.transformer_vars, self.input_generator_vars_params, self.input_discriminator_vars_params, self.input_gcn_vars_params, self.input_transformer_vars_params, self.set_generator_vars_params_op, self.set_discriminator_vars_params_op, self.set_gcn_vars_params_op, self.set_transformer_vars_params_op, self.obs_placeholder, self.act_placeholder, self.model, self.target_model, self.act, self.p_train_D, self.p_train_G, self.p_update_D, self.p_update_G, self.p_update_gcn, self.p_update_trans, self.p_debug = p_train(  # 建立actor 加入噪声的动作， 更新actor， 更新actor目标， {未加噪声的总做；加入噪声的下一动作}
+=======
+        self.obs_placeholder, self.act_placeholder, self.model, self.target_model, self.act, self.p_train_D, self.p_train_G, self.p_update_D, self.p_update_G, self.p_update_gcn, self.p_update_trans, self.p_debug = p_train(  # 建立actor 加入噪声的动作， 更新actor， 更新actor目标， {未加噪声的总做；加入噪声的下一动作}
+>>>>>>> bbb7af015557db9fecf03151bf5d6ab06832740a
             agents_num=self.n,
             edges_labels=edges_labels_n,
             nodes_labels=nodes_labels_n,

@@ -2,7 +2,10 @@ import gc
 import os, sys
 import psutil
 
+<<<<<<< HEAD
 sys.setrecursionlimit(9000000)
+=======
+>>>>>>> bbb7af015557db9fecf03151bf5d6ab06832740a
 sys.path.insert(1, os.path.join(sys.path[0], '..'))
 
 import argparse
@@ -13,7 +16,11 @@ from datetime import datetime
 import pickle
 import threading
 import logging
+<<<<<<< HEAD
 import multiprocessing as mp
+=======
+
+>>>>>>> bbb7af015557db9fecf03151bf5d6ab06832740a
 
 import nfvmaddpg.common.tf_util as U
 from nfvmaddpg.trainer.maddpg import MADDPGAgentTrainer
@@ -35,7 +42,11 @@ from multiagentnfv.core_nfv import Request
 from copy import deepcopy
 from itertools import permutations, islice, product, chain
 
+<<<<<<< HEAD
 # REQ_NUM = 0
+=======
+REQ_NUM = 0
+>>>>>>> bbb7af015557db9fecf03151bf5d6ab06832740a
 Z_DIM = 12
 
 flags = tf.app.flags  # 用于接受从终端传入的命令行参数
@@ -50,6 +61,7 @@ def parse_args():
     parser = argparse.ArgumentParser("Reinforcement Learning experiments for multiagent environments")
     # Environment
     parser.add_argument("--scenario", type=str, default="nfvtopo_abilene", help="name of the scenario script")
+<<<<<<< HEAD
     parser.add_argument("--max-episode-len", type=int, default=64, help="maximum episode length")
     parser.add_argument("--num-episodes", type=int, default=60000, help="number of episodes")
     parser.add_argument("--policy", type=str, default="maddpg", help="policy for agents")
@@ -62,6 +74,19 @@ def parse_args():
     # Checkpointing
     parser.add_argument("--exp-name", type=str, default=None, help="name of the experiment")
     parser.add_argument("--save-dir", type=str, default="nfvmaddpg/result/tmp/policy/", help="directory in which training state and model should be saved")
+=======
+    parser.add_argument("--max-episode-len", type=int, default=32, help="maximum episode length")
+    parser.add_argument("--num-episodes", type=int, default=60000, help="number of episodes")
+    parser.add_argument("--policy", type=str, default="maddpg", help="policy for agents")
+    # Core training parameters
+    parser.add_argument("--lr", type=float, default=1e-2, help="learning rate for Adam optimizer")
+    parser.add_argument("--gamma", type=float, default=0.95, help="discount factor")
+    parser.add_argument("--batch-size", type=int, default=32, help="number of episodes to optimize at the same time")
+    parser.add_argument("--num-units", type=int, default=64, help="number of units in the mlp")
+    # Checkpointing
+    parser.add_argument("--exp-name", type=str, default=None, help="name of the experiment")
+    parser.add_argument("--save-dir", type=str, default="/tmp/policy/", help="directory in which training state and model should be saved")
+>>>>>>> bbb7af015557db9fecf03151bf5d6ab06832740a
     parser.add_argument("--save-rate", type=int, default=1000, help="save model once every time this many episodes are completed")
     parser.add_argument("--load-dir", type=str, default="", help="directory in which training state and model are loaded")
     # Evaluation
@@ -186,6 +211,10 @@ def make_env(scenario_name, arglist, benchmark=False):
 def get_trainers(env, obs_shape_n, arglist, features, edge_features):
     trainers = []
     model = mlp_model
+<<<<<<< HEAD
+=======
+    
+>>>>>>> bbb7af015557db9fecf03151bf5d6ab06832740a
     trainer = MADDPGAgentTrainer
     for i in range(env.n):
         gan, data = gan_model('p_func_%d' % i, arglist, features, edge_features)
@@ -208,7 +237,12 @@ def preprocess(obs_n):  # 每个agent获得拓扑的信息 adj, features, line_a
     return new_obs_n
 
 
+<<<<<<< HEAD
 def process_request(request_n, REQ_NUM):
+=======
+def process_request(request_n):
+    global REQ_NUM
+>>>>>>> bbb7af015557db9fecf03151bf5d6ab06832740a
     train_vnf_n = []
     tran_pos_n = []
     for request in request_n:
@@ -216,9 +250,14 @@ def process_request(request_n, REQ_NUM):
             train_vnf_n.append(0)
             tran_pos_n.append(0)
             continue
+<<<<<<< HEAD
         request.add_prefix(REQ_NUM.value)
         REQ_NUM.value += 1
         # REQ_NUM = REQ_NUM + 1
+=======
+        request.add_prefix(REQ_NUM)
+        REQ_NUM += 1
+>>>>>>> bbb7af015557db9fecf03151bf5d6ab06832740a
         request.forceOrder = dict()
         prsr = Parser(request)
         prsr.preparse()
@@ -313,14 +352,22 @@ def get_batch(sent1, sent2, vocab_fpath, batch_size, maxlen1, maxlen2, shuffle=F
 def sample_z(): 
     return np.random.normal(0, 1, size=4)
 
+<<<<<<< HEAD
 def release_resources(lock, world, worker_id):
+=======
+def release_resources(lock, world):
+>>>>>>> bbb7af015557db9fecf03151bf5d6ab06832740a
     while True:
         lock.acquire()
         world.time = datetime.now()
         request_run = world.requests_running[:]
         for request in request_run:
             if (world.time - request.schedule_time).seconds >= request.time_to_finish:
+<<<<<<< HEAD
                 logging.info("# Worker Multi-Agents: pid{0} Releasing Resource!".format(worker_id))
+=======
+                logging.info("# Releasing Resource!")
+>>>>>>> bbb7af015557db9fecf03151bf5d6ab06832740a
                 world.requests_running.remove(request)
                 world.requests_finished += 1
                 for vl in request.virtual_links:
@@ -344,6 +391,7 @@ def release_resources(lock, world, worker_id):
         lock.release()
 
 
+<<<<<<< HEAD
 # def train(arglist):
 #     with U.multi_threaded_session():  # 只使用一个cpu的会话
 #         # Create environment
@@ -639,6 +687,9 @@ def central_agent(net_params_queues, exp_queues, arglist):
     assert len(net_params_queues) == arglist.num_agents
     assert len(exp_queues) == arglist.num_agents
 
+=======
+def train(arglist):
+>>>>>>> bbb7af015557db9fecf03151bf5d6ab06832740a
     with U.multi_threaded_session():  # 只使用一个cpu的会话
         # Create environment
         env = make_env(arglist.scenario, arglist, arglist.benchmark)
@@ -649,8 +700,12 @@ def central_agent(net_params_queues, exp_queues, arglist):
         features = obs_n[0][1]
         edge_features = obs_n[0][-2]
         trainers = get_trainers(env, obs_shape_n, arglist, features, edge_features)
+<<<<<<< HEAD
         logging.info('# Master Multi-Agents: pid{0} Using policy {1} '.format(os.getpid(), arglist.policy))
         # print('Using policy {} '.format(arglist.policy))
+=======
+        print('Using policy {} '.format(arglist.policy))
+>>>>>>> bbb7af015557db9fecf03151bf5d6ab06832740a
 
         # Initialize
         U.initialize()
@@ -659,7 +714,11 @@ def central_agent(net_params_queues, exp_queues, arglist):
         if arglist.load_dir == "":
             arglist.load_dir = arglist.save_dir
         if arglist.display or arglist.restore or arglist.benchmark:
+<<<<<<< HEAD
             logging.info('# Master Multi-Agents: pid{0} Loading previous state...'.format(os.getpid()))
+=======
+            print('Loading previous state...')
+>>>>>>> bbb7af015557db9fecf03151bf5d6ab06832740a
             U.load_state(arglist.load_dir)
 
         episode_rewards = [0.0]  # sum of rewards for all agents
@@ -669,6 +728,7 @@ def central_agent(net_params_queues, exp_queues, arglist):
         agent_info = [[[]]]  # placeholder for benchmarking info
         saver = tf.train.Saver()
 
+<<<<<<< HEAD
         # request_list = requestlist()
         # request_n = []
         # for i in range(env.n):
@@ -994,6 +1054,8 @@ def agent(net_params_queue, exp_queue, arglist, REQ_NUM, share_lock):
         agent_info = [[[]]]  # placeholder for benchmarking info
         saver = tf.train.Saver()
 
+=======
+>>>>>>> bbb7af015557db9fecf03151bf5d6ab06832740a
         request_list = requestlist()
         request_n = []
         for i in range(env.n):
@@ -1002,10 +1064,16 @@ def agent(net_params_queue, exp_queue, arglist, REQ_NUM, share_lock):
                 request_n.append(0)
             else:
                 request_n.append(deepcopy(request_list[request_num]))
+<<<<<<< HEAD
         share_lock.acquire()
         train_vnf_n, tran_pos_n = process_request(request_n, REQ_NUM)
         tmp_req_num = REQ_NUM.value
         share_lock.release()
+=======
+        
+
+        train_vnf_n, tran_pos_n = process_request(request_n)
+>>>>>>> bbb7af015557db9fecf03151bf5d6ab06832740a
         create_request(request_n, env.agents) # 为每个agent创建Request类
 
         for i in range(env.n):
@@ -1037,6 +1105,7 @@ def agent(net_params_queue, exp_queue, arglist, REQ_NUM, share_lock):
         t_start = time.time()
 
         lock = threading.RLock()
+<<<<<<< HEAD
         t = threading.Thread(target=release_resources, args=(lock, env.world, os.getpid()))
         t.setDaemon(True)
         t.start()
@@ -1044,12 +1113,23 @@ def agent(net_params_queue, exp_queue, arglist, REQ_NUM, share_lock):
         # logging.info('# Worker Multi-Agents Initiating synchronization of the network parameters from Master Multi-Agents...')
         # print("子进程执行中>>> pid={0},ppid={1}".format(os.getpid(),os.getppid()))
         logging.info('# Worker Multi-Agents: pid={0} Starting iterations...'.format(os.getpid()))
+=======
+        t = threading.Thread(target=release_resources, args=(lock, env.world))
+        t.setDaemon(True)
+        t.start()
+
+        logging.info('# Starting iterations...')
+>>>>>>> bbb7af015557db9fecf03151bf5d6ab06832740a
         # print('Starting iterations...')
 
         while True:
             # info = psutil.virtual_memory()
             # logging.info('内存使用：%s' % str(psutil.Process(os.getpid()).memory_info().rss))
+<<<<<<< HEAD
             logging.info("# Worker Multi-Agents: pid={0} Request Num {1}" .format(os.getpid(), tmp_req_num))
+=======
+            logging.info("# Request Num %s" % str(REQ_NUM))
+>>>>>>> bbb7af015557db9fecf03151bf5d6ab06832740a
             # get action
             # prev = psutil.Process(os.getpid()).memory_info().rss
             action_n = [agent.action(obs) if env_agent.processing==True else [np.zeros((1,12,12)), np.zeros((1,12,12))] for agent, obs, env_agent in zip(trainers, obs_n, env.agents)]
@@ -1065,8 +1145,12 @@ def agent(net_params_queue, exp_queue, arglist, REQ_NUM, share_lock):
             # after = psutil.Process(os.getpid()).memory_info().rss
             # logging.info('step后内存变化：%s' % str(after - prev))
             if np.any(rew_n):
+<<<<<<< HEAD
                 # logging.info("Reward is {}".format(rew_n))
                 logging.info("# Worker Multi-Agents: pid={0} Reward is {1}" .format(os.getpid(), rew_n))
+=======
+                logging.info("Reward is {}".format(rew_n))
+>>>>>>> bbb7af015557db9fecf03151bf5d6ab06832740a
             new_obs_n = preprocess(new_obs_n)         
 
             # prev = psutil.Process(os.getpid()).memory_info().rss
@@ -1078,10 +1162,14 @@ def agent(net_params_queue, exp_queue, arglist, REQ_NUM, share_lock):
                 else:                 
                     request_n.append(deepcopy(request_list[request_num]))
             # 为每个agent创建Request类
+<<<<<<< HEAD
             share_lock.acquire()
             train_vnf_n, tran_pos_n = process_request(request_n, REQ_NUM)
             tmp_req_num = REQ_NUM.value
             share_lock.release()        
+=======
+            train_vnf_n, tran_pos_n = process_request(request_n)         
+>>>>>>> bbb7af015557db9fecf03151bf5d6ab06832740a
             create_request(request_n, env.agents)
             # after = psutil.Process(os.getpid()).memory_info().rss
             # logging.info('处理1后内存变化：%s' % str(after - prev))
@@ -1136,8 +1224,12 @@ def agent(net_params_queue, exp_queue, arglist, REQ_NUM, share_lock):
             for i, agent in enumerate(trainers):
                 action_n[i][0] = action_n[i][0].reshape(action_n[i][0].shape[1], action_n[i][0].shape[2])
                 action_n[i][1] = action_n[i][1].reshape(action_n[i][1].shape[1], action_n[i][1].shape[2])
+<<<<<<< HEAD
                 # agent.experience(obs_n[i], action_n[i], rew_n[i], new_obs_n[i], done_n[i], terminal)
                 exp_queue[i].put([obs_n[i], action_n[i], rew_n[i], new_obs_n[i], done_n[i]])
+=======
+                agent.experience(obs_n[i], action_n[i], rew_n[i], new_obs_n[i], done_n[i], terminal)
+>>>>>>> bbb7af015557db9fecf03151bf5d6ab06832740a
                 # logging.info("Agent_%d's Replay buffer size: %s" % (i,str(agent.replay_buffer.sizeofstorage())))
             # after = psutil.Process(os.getpid()).memory_info().rss
             # logging.info('存入经验后内存变化：%s' % str(after - prev))
@@ -1159,10 +1251,14 @@ def agent(net_params_queue, exp_queue, arglist, REQ_NUM, share_lock):
                     else:
                         request_n.append(deepcopy(request_list[request_num]))
 
+<<<<<<< HEAD
                 share_lock.acquire()
                 train_vnf_n, tran_pos_n = process_request(request_n, REQ_NUM)
                 tmp_req_num = REQ_NUM.value
                 share_lock.release()
+=======
+                train_vnf_n, tran_pos_n = process_request(request_n)
+>>>>>>> bbb7af015557db9fecf03151bf5d6ab06832740a
                 create_request(request_n, env.agents)  # 为每个agent创建Request类
                 # trans_out = []
                 for i in range(env.n):
@@ -1228,16 +1324,26 @@ def agent(net_params_queue, exp_queue, arglist, REQ_NUM, share_lock):
                 continue
 
             # update all trainers, if not in display or benchmark mode
+<<<<<<< HEAD
             # loss = None
             # for agent in trainers:
             #     agent.preupdate()
             # # prev = psutil.Process(os.getpid()).memory_info().rss
             # for index, agent in enumerate(trainers):
             #     loss = agent.update(trainers, train_step, index)
+=======
+            loss = None
+            for agent in trainers:
+                agent.preupdate()
+            # prev = psutil.Process(os.getpid()).memory_info().rss
+            for index, agent in enumerate(trainers):
+                loss = agent.update(trainers, train_step, index)
+>>>>>>> bbb7af015557db9fecf03151bf5d6ab06832740a
             # after = psutil.Process(os.getpid()).memory_info().rss
             # logging.info('更新后内存变化：%s' % str(after - prev))
 
             # save model, display training output
+<<<<<<< HEAD
             # if terminal and (len(episode_rewards) % arglist.save_rate == 0):
             #     U.save_state(arglist.save_dir, saver=saver)
             #     # print statement depends on whether or not there are adversaries
@@ -1314,6 +1420,34 @@ def train(arglist):
     # wait unit training is done
     coordinator.join()
 
+=======
+            if terminal and (len(episode_rewards) % arglist.save_rate == 0):
+                U.save_state(arglist.save_dir, saver=saver)
+                # print statement depends on whether or not there are adversaries
+                # if num_adversaries == 0:
+                print("steps: {}, episodes: {}, mean episode reward: {}, time: {}".format(
+                    train_step, len(episode_rewards), np.mean(episode_rewards[-arglist.save_rate:]), round(time.time()-t_start, 3)))
+                # else:
+                #     print("steps: {}, episodes: {}, mean episode reward: {}, agent episode reward: {}, time: {}".format(
+                #         train_step, len(episode_rewards), np.mean(episode_rewards[-arglist.save_rate:]),
+                #         [np.mean(rew[-arglist.save_rate:]) for rew in agent_rewards], round(time.time()-t_start, 3)))
+                t_start = time.time()
+                # Keep track of final episode reward
+                final_ep_rewards.append(np.mean(episode_rewards[-arglist.save_rate:]))
+                for rew in agent_rewards:
+                    final_ep_ag_rewards.append(np.mean(rew[-arglist.save_rate:]))
+
+            # saves final episode reward for plotting training curve later
+            if len(episode_rewards) > arglist.num_episodes:
+                rew_file_name = str(arglist.plots_dir) + str(arglist.exp_name) + '_rewards.pkl'
+                with open(rew_file_name, 'wb') as fp:
+                    pickle.dump(final_ep_rewards, fp)
+                    agrew_file_name= str(arglist.plots_dir) + str(arglist.exp_name) + '_agrewards.pkl'
+                with open(agrew_file_name, 'wb') as fp:
+                    pickle.dump(final_ep_ag_rewards, fp)
+                print('...Finished total of {} episodes.'.format(len(episode_rewards)))
+                break
+>>>>>>> bbb7af015557db9fecf03151bf5d6ab06832740a
 
 if __name__ == '__main__':
     arglist = parse_args()
