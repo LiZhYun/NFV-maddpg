@@ -1,0 +1,8 @@
+REQUEST:
+UF: {'req0_u11': 'IPS', 'req0_u10': 'IDS', 'req0_u7': 'FW', 'req0_u6': 'PCTL', 'req0_u5': 'WAPGW', 'req0_u4': 'DPI', 'req0_u3': 'AV', 'req0_u2': 'WOPT', 'req0_u1': 'LB', 'req0_u9': 'CACHE', 'req0_u8': 'VOPT', 'req0_a2': 'SRV', 'req0_a1': 'REG'}
+r: {'req0_a2_2': [1.0], 'req0_a2_3': [1.0], 'req0_a2_0': [1.0], 'req0_a2_1': [1.0], 'req0_u11': [0.9], 'req0_u10': [0.75], 'req0_a2': [1.0], 'req0_a1': [1.0], 'req0_u7': [0.8], 'req0_u6': [1.4], 'req0_u5': [1.0], 'req0_u4': [0.25, 0.1, 0.6, 0.05], 'req0_u3': [0.75], 'req0_u2': [1.5], 'req0_u1': [0.25], 'req0_u9': [1.0], 'req0_u8': [2.5]}
+A: {'req0_a2_2': 0, 'req0_a2_3': 8, 'req0_a2_0': 10, 'req0_a2_1': 7, 'req0_a1': 4}
+l_req: {('req0_a1', 'req0_a2_3'): 10.0, ('req0_a1', 'req0_a2_2'): 10.0, ('req0_a1', 'req0_a2_1'): 10.0, ('req0_a1', 'req0_a2_0'): 10.0, ('req0_a1', 'req0_a2'): 10.0}
+Input datarate: 1000.0
+Chain: req0_a1.req0_u1{req0_u1,req0_u2,req0_u3;req0_u4[req0_u5|(req0_u6,req0_u7)|req0_u8.req0_u9|req0_u10].req0_u11.req0_a2;4}
+
