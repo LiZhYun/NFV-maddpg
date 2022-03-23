@@ -16,9 +16,9 @@
 ## 安装NFV环境: Multi-Agent NFV Environments
 
 相关环境地址为：
-[Multi-Agent NFV Environments (MNFVE)](https://github.com/LiZhYun/multiagent-nfv-envs).
+[Multi-Agent NFV Environments (MNFVE)](https://github.com/LiZhYun/multiagent-nfvtopo-envs).
 
-- 根据`README`下载并安装。 [点击此处](https://github.com/LiZhYun/multiagent-nfv-envs)
+- 根据`README`下载并安装。 [点击此处](https://github.com/LiZhYun/multiagent-nfvtopo-envs)
 
 - 这样可以保证multiagent-nfv-envs在您的搜索路径中
 
